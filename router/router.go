@@ -21,8 +21,8 @@ func (r *Router) RegisterRoutes(farzbook *handler.FarzbookHandler) {
 	r.mux.HandleFunc("/login", farzbook.Login)
 	r.mux.HandleFunc("/profile", farzbook.Profile)
 	r.mux.HandleFunc("/logout", farzbook.Logout)
-	r.mux.HandleFunc("/add", farzbook.Logout)
-	r.mux.HandleFunc("/sub", farzbook.Logout)
+	r.mux.HandleFunc("/add", farzbook.Add)
+	r.mux.HandleFunc("/sub", farzbook.Sub)
 }
 
 func (r *Router) Handler() http.Handler {
