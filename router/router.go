@@ -4,27 +4,28 @@ import (
 	"net/http"
 
 	"farzbook.com/m/handler"
+	"github.com/gin-gonic/gin"
 )
 
 type Router struct {
-	mux *http.ServeMux
+        engine *gin.Engine
 }
 
 func New() *Router {
-	return &Router{
-		mux: http.NewServeMux(),
-	}
+        return &Router{
+                engine: gin.Default(),
+        }
 }
 
 func (r *Router) RegisterRoutes(farzbook *handler.FarzbookHandler) {
-	r.mux.HandleFunc("/", farzbook.Home)
-	r.mux.HandleFunc("/login", farzbook.Login)
-	r.mux.HandleFunc("/profile", farzbook.Profile)
-	r.mux.HandleFunc("/logout", farzbook.Logout)
-	r.mux.HandleFunc("/add", farzbook.Add)
-	r.mux.HandleFunc("/sub", farzbook.Sub)
+        r.engine.GET("/", farzbook.Home)
+        r.engine.GET("/login", farzbook.Login)
+        r.engine.GET("/profile", farzbook.Profile)
+        r.engine.GET("/logout", farzbook.Logout)
+        r.engine.GET("/add", farzbook.Add)
+        r.engine.GET("/sub", farzbook.Sub)
 }
 
 func (r *Router) Handler() http.Handler {
-	return r.mux
+        return r.engine
 }

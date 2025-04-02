@@ -3,27 +3,27 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
-
-	"farzbook.com/m/handler"
-	"farzbook.com/m/router"
 
 	"farzbook.com/m/config"
+	"farzbook.com/m/handler"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Load server configuration
-	cfg := config.Load()
+        cfg := config.Load()
 
-	// Initialize handlers
-	farzbookHandler := handler.NewFarzbookHandler()
+        farzbookHandler := handler.NewFarzbookHandler()
 
-	// Setup router
-	r := router.New()
-	r.RegisterRoutes(farzbookHandler)
+        r := gin.Default()
 
-	// Start server
-	addr := fmt.Sprintf(":%d", cfg.Port)
-	log.Printf("Server starting on http://localhost%s", addr)
-	log.Fatal(http.ListenAndServe(addr, r.Handler()))
+        r.GET("/", farzbookHandler.Home)
+        r.GET("/login", farzbookHandler.Login)
+        r.GET("/profile", farzbookHandler.Profile)
+        r.GET("/logout", farzbookHandler.Logout)
+        r.GET("/add", farzbookHandler.Add)
+        r.GET("/sub", farzbookHandler.Sub)
+
+        addr := fmt.Sprintf(":%d", cfg.Port)
+        log.Printf("Server starting on http://localhost%s", addr)
+        log.Fatal(r.Run(addr))
 }

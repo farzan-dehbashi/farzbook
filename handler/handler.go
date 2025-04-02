@@ -3,60 +3,49 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
-type FarzbookHandler struct{
-	counter int
+type FarzbookHandler struct {
+        counter int
 }
 
 func NewFarzbookHandler() *FarzbookHandler {
-	return &FarzbookHandler{}
+        return &FarzbookHandler{}
 }
 
-func (h *FarzbookHandler) Home(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("home"))
-	fmt.Println("home")
+func (h *FarzbookHandler) Home(c *gin.Context) {
+        c.String(http.StatusOK, "home")
+        fmt.Println("home")
 }
 
-func (h *FarzbookHandler) Login(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("login"))
-	fmt.Println("login")
+func (h *FarzbookHandler) Login(c *gin.Context) {
+        c.String(http.StatusOK, "login")
+        fmt.Println("login")
 }
 
-func (h *FarzbookHandler) Profile(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("profile"))
-	fmt.Println("profile")
+func (h *FarzbookHandler) Profile(c *gin.Context) {
+        c.String(http.StatusOK, "profile")
+        fmt.Println("profile")
 }
 
-func (h *FarzbookHandler) Logout(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("logout"))
-	fmt.Println("logout")
+func (h *FarzbookHandler) Logout(c *gin.Context) {
+        c.String(http.StatusOK, "logout")
+        fmt.Println("logout")
 }
 
-func (h *FarzbookHandler) Add(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-
-	h.counter ++
-	fmt.Println("add", h.counter)
-
-	w.Write([]byte("add"))
+func (h *FarzbookHandler) Add(c *gin.Context) {
+        h.counter++
+        counterStr := strconv.Itoa(h.counter)
+        c.String(http.StatusOK, "add, counter: %s", counterStr)
+        fmt.Println("add", h.counter)
 }
 
-func (h *FarzbookHandler) Sub(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-
-	h.counter --
-	fmt.Println("sub", h.counter)
-
-	w.Write([]byte("sub"))
+func (h *FarzbookHandler) Sub(c *gin.Context) {
+        h.counter--
+        counterStr := strconv.Itoa(h.counter)
+        c.String(http.StatusOK, "sub, counter: %s", counterStr)
+        fmt.Println("sub", h.counter)
 }
